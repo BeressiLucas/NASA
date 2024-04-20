@@ -1,0 +1,25 @@
+{# templates/search/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ message }}</h1>
+
+    <h1>Images de Mars</h1>
+    
+    {% if imageUrl is not empty %}
+        <div class="image-gallery">
+                <img src="{{ imageUrl }}" alt="Image de Mars">
+        </div>
+    {% else %}
+        <p>Aucune image n'a été trouvée.</p>
+    {% endif %}
+    
+    <form action="{{ path('route_search') }}" method="post">
+        <label for="data">Données à envoyer :</label>
+        <input type="text" id="data" name="data">
+        <button type="submit">lancer la recherche</button>
+    </form>
+{% endblock %}
