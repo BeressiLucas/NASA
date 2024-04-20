@@ -21,7 +21,7 @@ class SearchController extends AbstractController
      *L'utilisateur doit pouvoir entrer sa recherche dans un input, il utilisera un bouton pour lancer la recherche correspondant à ce qu'il a indiqué dans l'input.
      */
 
-     
+
 
     //Dans la partie 3, j'ai amélioré le code en ajoutant un rendu à /search et en déléguant le traitement des requêtes, tant depuis l'URL (/search/{query}) que depuis un formulaire, grâce à la méthode POST.
     #[Route('/search', name: 'route_search')]
@@ -40,6 +40,31 @@ class SearchController extends AbstractController
 
         $random_photo = '';
 
+        $random_photo = $this->getImage($request, $query);
+
+        return $this->render('search/search.html.twig', [
+            'title' => 'Recherche sur ' . $query,
+            'imageUrl' => $random_photo,
+            'query' => $query
+        ]);
+    }
+
+    #[Route('/searchback/{query}', name: 'route_query_searchback')]
+    public function searchback(Request $request, string $query): Response
+    {
+
+        $random_photo = $this->getImage($request, $query);
+
+
+        return $this->render('search/search.html.twig', [
+            'title' => 'Recherche sur ' . $query,
+            'imageUrl' => $random_photo,
+            'query' => $query
+        ]);
+    }
+
+    public function getImage($request, $query)
+    {
         //recherche via input
         if ($query == 'submit') {
             $query = $request->get('data');
@@ -59,13 +84,8 @@ class SearchController extends AbstractController
             }
         }
 
-        return $this->render('search/search.html.twig', [
-            'title' => 'Recherche sur ' . $query,
-            'imageUrl' => $random_photo,
-            'query' => $query
-        ]);
+        return $random_photo;
     }
-
 
     private function API_NASA(string $endpoint, string $method)
     {
