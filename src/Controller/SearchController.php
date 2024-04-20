@@ -25,7 +25,7 @@ class SearchController extends AbstractController
 
     //Dans la partie 3, j'ai amélioré le code en ajoutant un rendu à /search et en déléguant le traitement des requêtes, tant depuis l'URL (/search/{query}) que depuis un formulaire, grâce à la méthode POST.
     #[Route('/search', name: 'route_search')]
-    public function index(Request $request): Response
+    public function index(): Response
     {
         return $this->render('search/search.html.twig', [
             'title' => 'Recherche',
@@ -56,7 +56,7 @@ class SearchController extends AbstractController
         $random_photo = $this->getImage($request, $query);
 
 
-        return $this->render('search/search.html.twig', [
+        return $this->render('search/searchback.html.twig', [
             'title' => 'Recherche sur ' . $query,
             'imageUrl' => $random_photo,
             'query' => $query

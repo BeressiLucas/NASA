@@ -1,0 +1,16 @@
+{# templates/search/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {% if imageUrl is not empty %}
+        <div class="image-gallery">
+                <img src="{{ imageUrl }}" alt="Image de Mars">
+        </div>
+    {% else %}
+        <p>Aucune image n'a été trouvée.</p>
+    {% endif %}
+    
+{% endblock %}
