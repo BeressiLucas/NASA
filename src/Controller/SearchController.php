@@ -24,12 +24,22 @@ class SearchController extends AbstractController
     #[Route('/search', name: 'route_search')]
     public function index(Request $request): Response
     {
-        $query = $request->request->get('data');
+        return $this->render('search/search.html.twig', [
+            'title' => 'Recherche',
+            'imageUrl' => '',
+            'query' => '',
+        ]);
+    }
+
+    #[Route('/search/{query}', name: 'route_query_search')]
+    public function search(Request $request, string $query): Response
+    {
+
         $random_photo = '';
 
-
-        if (empty($query)) {
-            $query = "Mars";
+        //recherche via input
+        if ($query == 'submit') {
+            $query = $request->get('data');
         }
 
         $returned_data = $this->API_NASA('https://images-api.nasa.gov/search?q=' . $query, 'GET');
@@ -39,13 +49,17 @@ class SearchController extends AbstractController
         $random_index = $shuffle_number[0];
 
         if ($returned_data['collection']['items'] and $returned_data['collection']['items'][$random_index]) {
-            $random_photo = $returned_data['collection']['items'][$random_index]['links'][0]['href'];
+            try {
+                $random_photo = $returned_data['collection']['items'][$random_index]['links'][0]['href'];
+            } catch (\Exception $e) {
+                $random_photo = '';
+            }
         }
 
         return $this->render('search/search.html.twig', [
             'title' => 'Recherche sur ' . $query,
-            'message' => 'Hello Mars!',
             'imageUrl' => $random_photo,
+            'query' => $query
         ]);
     }
 
