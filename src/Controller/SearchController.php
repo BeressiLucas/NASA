@@ -37,14 +37,8 @@ class SearchController extends AbstractController
     #[Route('/search/{query}', name: 'route_query_search')]
     public function search(Request $request, string $query): Response
     {
-
-        $random_photo = '';
-
-        $random_photo = $this->getImage($request, $query);
-
         return $this->render('search/search.html.twig', [
             'title' => 'Recherche sur ' . $query,
-            'imageUrl' => $random_photo,
             'query' => $query
         ]);
     }

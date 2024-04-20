@@ -2,23 +2,19 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/search.js') }}"></script>
+{% endblock %}
 
 {% block body %}
     <h1>Images de Mars</h1>
     
-    {% if imageUrl is not empty %}
-        <div class="image-gallery">
-                <img src="{{ imageUrl }}" alt="Image de Mars">
-        </div>
-    {% else %}
-        <p>Aucune image n'a été trouvée.</p>
-    {% endif %}
+   <div class="image-gallery">
+            <img src="" alt="Image de Mars" id='image'> 
+    </div>
     
-    <form action="{{ path('route_query_search', {'query': 'submit'}) }}" method="get">
-        <label for="data">Données à envoyer :</label>
-        <input type="text" id="data" name="data" value={{query}}>
-        <button type="submit">Lancer la recherche</button>
-    </form>
-
+    <label for="data">Données à envoyer :</label>
+    <input type="input" id="data" name="data">
+    <button type="submit">Envoyer</button>
 {% endblock %}
