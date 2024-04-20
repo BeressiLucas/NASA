@@ -21,6 +21,9 @@ class SearchController extends AbstractController
      *L'utilisateur doit pouvoir entrer sa recherche dans un input, il utilisera un bouton pour lancer la recherche correspondant à ce qu'il a indiqué dans l'input.
      */
 
+     
+
+    //Dans la partie 3, j'ai amélioré le code en ajoutant un rendu à /search et en déléguant le traitement des requêtes, tant depuis l'URL (/search/{query}) que depuis un formulaire, grâce à la méthode POST.
     #[Route('/search', name: 'route_search')]
     public function index(Request $request): Response
     {
