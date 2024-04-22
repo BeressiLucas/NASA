@@ -53,7 +53,7 @@ class SearchController extends AbstractController
             'imageUrl' => $random_photo[0],
             'query' => $query,
             'description' => $random_photo[1]['collection']['items'][$random_photo[2]]['data'][0]['description'] ?? 'Aucune information',
-            'title' => $$random_photo[1]['collection']['items'][$random_photo[2]]['data'][0]['title'] ?? 'Aucune information',
+            'titles' => $random_photo[1]['collection']['items'][$random_photo[2]]['data'][0]['title'] ?? 'Aucune information',
             'photographer' => isset($random_photo[1]['collection']['items'][$random_photo[2]]['data'][0]['photographer']) ? $random_photo[1]['collection']['items'][$random_photo[2]]['data'][0]['photographer'] : 'Aucune information',
             'date_created' => $random_photo[1]['collection']['items'][$random_photo[2]]['data'][0]['date_created'] ?? 'Aucune information',
         ]);
