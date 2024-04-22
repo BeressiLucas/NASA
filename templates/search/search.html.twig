@@ -2,23 +2,125 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@1.18.11/dist/tsparticles.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="{{ asset('js/solar.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        gsap.to("#tsparticles", { duration: 2, opacity: 1, y: 0, ease: "power4.out" });
+    gsap.from(".container", { duration: 2, opacity: 0, y: -50, ease: "power4.out", delay: 0.5 });
+    gsap.from("#data", { duration: 2, opacity: 0, y: 50, ease: "power4.out", delay: 1 });
+    gsap.from("#planet-info", { duration: 2, opacity: 0, y: 50, ease: "power4.out", delay: 2 });
+	gsap.from(".orbit", { duration: 1, scale: 0, stagger: 0.2, ease: "back.out(1.7)" });
+	gsap.from(".planet", { duration: 1, scale: 0, stagger: 0.2, ease: "back.out(1.7)" });
+    })
+  </script>
+{% endblock %}
+
 
 {% block body %}
-    <h1>Images de Mars</h1>
-    
-    {% if imageUrl is not empty %}
+<div id="tsparticles"></div>
+<div class="container">
+            <h1>Recherche par mots-clés</h1>
+        <form action="{{ path('route_search') }}" method="post">
+            <div class="search-container">
+                <input type="text" id="date" name="data" value="{{query}}">
+                <button id="searchButton" type="submit  data-text=" Rechercher">Rechercher</button>
+            </div>
+        </form>
+        <hr>
+         <h1>Recherche par date :</h1>
+        <form action="{{ path('route_curiosity') }}" method="post">
+            <div class="search-container">
+                <input type="date" id="date" name="data">
+                <button id="searchButton" type="submit  data-text=" Rechercher">Rechercher</button>
+            </div>
+        </form>
+				<hr>
+		<h1><a href="/map">Mais où se trouve les météorites ?</a></h1>
+</div>
+
+<div id="data">
+		<a class="sun" title="sun">Soleil</a>
+		<a class="mercury" title="mercury">Mercure</a>
+		<a class="venus" title="venus">Venus</a>
+		<a class="earth" title="earth">Terre</a>
+		<a class="mars" title="mars">Mars</a>
+		<a class="jupiter" title="jupiter">Jupiter</a>
+		<a class="saturn" title="saturn">Saturne</a>
+		<a class="uranus" title="uranus">Uranus</a>
+		<a class="neptune" title="neptune">Neptune</a>
+	</div>
+<div class="flex">
+		<div class="solar-system">
+			<div id="sun"></div>
+
+			<div class="orbit mercury-orbit"></div>
+			<div class="mercury-spin">
+				<div id="mercury" class="planet"></div>
+			</div>
+
+			<div class="orbit venus-orbit"></div>
+			<div class="venus-spin">
+				<div id="venus" class="planet"></div>
+			</div>
+
+			<div class="orbit earth-orbit"></div>
+			<div class="earth-spin">
+				<div class="orbit moon-orbit"></div>
+				<div class="moon-spin">
+					<div id="moon" class="planet"></div>
+				</div>
+
+				<img id="earth" src='{{ asset('img/earth_small_150.jpg') }}'/>
+			</div>
+
+			<div class="orbit mars-orbit"></div>
+			<div class="mars-spin">
+				<div id="mars" class="planet"></div>
+			</div>
+
+			<div class="orbit jupiter-orbit"></div>
+			<div class="jupiter-spin">
+				<div id="jupiter" class="planet"></div>
+			</div>
+
+			<div class="orbit saturn-orbit"></div>
+			<div class="saturn-spin">
+				<div id="saturn" class="planet"></div>
+			</div>
+
+			<div class="orbit uranus-orbit"></div>
+			<div class="uranus-spin">
+				<div id="uranus" class="planet"></div>
+			</div>
+
+			<div class="orbit neptune-orbit"></div>
+			<div class="neptune-spin">
+				<div id="neptune" class="planet"></div>
+			</div>
+		</div>
+    <div id="planet-info">
+        {% if imageUrl is not empty %}
         <div class="image-gallery">
-                <img src="{{ imageUrl }}" alt="Image de Mars">
+            <img src="{{ imageUrl }}" id="imgreturned" alt="Image de Mars">
         </div>
-    {% else %}
-        <p>Aucune image n'a été trouvée.</p>
-    {% endif %}
-    
-    <form action="{{ path('route_query_search', {'query': 'submit'}) }}" method="get">
-        <label for="data">Données à envoyer :</label>
-        <input type="text" id="data" name="data" value={{query}}>
-        <button type="submit">Lancer la recherche</button>
-    </form>
+        {% else %}
+         <img src="{{ imageUrl }}" id="imgreturned" alt="Image de Mars">
+         <p class="erreur">Aucune image n'a été trouvée.</p>
+        {% endif %} <div class="planet-info-text">
+            <h2>Informations la donnée rechercher : <span class='date'>{{query}}</span></h2>
+            <ul id='information'>
+                <li>Titre : {{titles}}</li>
+                <li>Description : {{description}}</li>
+                <li>Photographe : {{photographer}}</li>
+                <li>Prise le : {{date_created}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

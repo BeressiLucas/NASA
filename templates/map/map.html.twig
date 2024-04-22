@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Météorite map
+{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock %}
+
+{% block javascripts %}
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      var mymap = L.map('mapid').setView([0, 0], 2)
+    
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+      }).addTo(mymap)
+    
+      fetch('https://data.nasa.gov/resource/gh4g-9sfh.json')
+        .then((response) => response.json())
+        .then((data) => {
+          data.forEach(function (meteorite) {
+            var marker = L.marker([meteorite.geolocation.latitude, meteorite.geolocation.longitude]).addTo(mymap)
+            marker.bindPopup('<b>' + meteorite.name + '</b><br>' + meteorite.recclass + '<br>Masse: ' + meteorite.mass + 'g<br>Année: ' + meteorite.year.substr(0, 4)).openPopup()
+          })
+        })
+        .catch((error) => console.error('Erreur lors du chargement des données :', error))
+    })
+  </script>
+{% endblock %}
+
+{% block body %}
+  <div id="mapid" style="height: 98vh;"></div>
+{% endblock %}

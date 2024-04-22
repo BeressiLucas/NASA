@@ -15,7 +15,7 @@ class MarsController extends AbstractController
      * Vous allez tout d'abord devoir créer un Controller Mars dans lequel vous allez créer une route 
      * /mars (vous gérerez les routes à l'aide des annotations et non du fichier routes.yaml). 
      * Cette route devra retourner "Hello Mars!".
-    */
+     */
 
     #[Route('/Mars', name: 'route_mars')]
     public function mars(): Response
@@ -36,49 +36,60 @@ class MarsController extends AbstractController
     #[Route('/curiosity', name: 'route_curiosity')]
     public function index(Request $request): Response
     {
-        $data = $request->get('data');
+        $time = $request->request->get('data') ?: '2016-01-01';
+        $APIKEY = $this->getParameter('app.APIKEY_NASA');
+        $returned_data = $this->getImage($time, $APIKEY);
+
+        try {
+            $infoList = json_encode($returned_data[1]);
+        } catch (\Throwable $th) {
+            $returned_data[1] = [];
+            $infoList = json_encode($returned_data[1]);
+        }
 
         return $this->render('mars/mars-curiosity.html.twig', [
-            'message' => 'Hello Mars!',
-            'imageUrl' => $data,
+            'message' => 'Recherche par date :',
+            'imageUrl' => $returned_data[0],
+            'infoList' => $infoList,
+            'value_info' => $time,
+            'camera' => $returned_data[1]['camera']['name'] ?? '"Aucune information"',
+            'earth_date' => $returned_data[1]['earth_date'] ?? '"Aucune information"',
+            'rover' => $returned_data[1]['rover']['name'] ?? '"Aucune information"',
+            'sol' => $returned_data[1]['sol'] ?? '"Aucune information"',
+            'title' => 'Système solaire'
         ]);
     }
 
-    #[Route('/curiosity/results', name: 'route_mars_submit')]
-    public function submit(Request $request): Response
+    public function getImage($time, $APIKEY)
     {
+        $random_photo = "";
 
-        $time = $request->request->get('data');
-        $random_photo = '';
-        $APIKEY = $this->getParameter('app.APIKEY_NASA');
-
-
-        $returned_data = $this->API_NASA('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date='.$time.'&camera=NAVCAM&api_key='.$APIKEY.'', 'GET');
+        $returned_data = $this->API_NASA('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=' . $time . '&camera=NAVCAM&api_key=' . $APIKEY . '', 'GET');
 
         $shuffle_number = range(0, count($returned_data['photos']) - 1);
         shuffle($shuffle_number);
         $random_index = $shuffle_number[0];
 
-        if($returned_data['photos'] and $returned_data['photos'][$random_index] ){
+        if ($returned_data['photos'] and $returned_data['photos'][$random_index]) {
             $random_photo = $returned_data['photos'][$random_index]['img_src'];
+            return [$random_photo, $returned_data['photos'][$random_index]];
         }
 
-        return $this->forward('App\Controller\MarsController::index', [
-            'data' => $random_photo,
-        ]);
+        return [$random_photo, "[]"];
     }
 
-    private function API_NASA(string $endpoint, string $method){
+    private function API_NASA(string $endpoint, string $method)
+    {
         $client = HttpClient::create();
-    
+
         try {
             $response = $client->request($method, $endpoint);
-            
+
             if ($response->getStatusCode() === 200) {
                 $content = $response->getContent();
-    
+
                 $data = json_decode($content, true);
-                
+
                 return $data;
             } else {
                 throw new \Exception('La requête a échoué');
@@ -88,5 +99,4 @@ class MarsController extends AbstractController
             throw new \Exception('Une erreur s\'est produite lors de la requête : ' . $e->getMessage());
         }
     }
-    
 }

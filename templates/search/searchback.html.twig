@@ -1,16 +1,36 @@
-{# templates/search/index.html.twig #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+
+{% block javascripts %}
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.18.11/dist/tsparticles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="{{ asset('js/solar.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      gsap.from('.image-container img', { opacity: 0, duration: 1, y: -50, ease: 'power2.out' })
+      gsap.from('.button-container button', { opacity: 0, duration: 5, y: 50, stagger: 0.2, ease: 'power2.out' })
+    })
+  </script>
+{% endblock %}
 
 {% block body %}
-    {% if imageUrl is not empty %}
-        <div class="image-gallery">
-                <img src="{{ imageUrl }}" alt="Image de Mars">
-        </div>
-    {% else %}
+  <div id="tsparticles"></div>
+  <div class="containers">
+    <div class="image-container">
+      {% if imageUrl is not empty %}
+        <img src="{{ imageUrl }}" alt="Image de Mars" />
+      {% else %}
         <p>Aucune image n'a été trouvée.</p>
-    {% endif %}
-    
+      {% endif %}
+    </div>
+    <div class="button-container">
+      <button class="btn-left"><a href="/curiosity">Recherche par date</a></button>
+      <button class="btn-center"><a href="/searchback/{{ query }}">Actualiser</a></button>
+      <button class="btn-right"><a href="/search">Rechercher par nom</a></button>
+    </div>
+  </div>
 {% endblock %}

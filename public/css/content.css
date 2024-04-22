@@ -1,0 +1,545 @@
+@font-face {
+    font-family: 'SpaceFont'; /* Nom de la police */
+    src: url('./pl.ttf') format('truetype'); /* Chemin vers le fichier TTF */
+}
+
+h1, li{
+    font-family: "Roboto", sans-serif;
+}
+
+p {
+    font-family: "Open Sans", sans-serif; 
+}
+
+/* search & curiosity page */
+
+html,
+body {
+    background-color: #000000;
+    overflow-x: hidden;
+}
+
+hr {
+    padding: 12px;
+    border: 2px dotted #ffffff;
+    border-style: none none dotted;
+}
+
+.solar-system {
+    position: fixed;
+    width: 100%;
+    height: 98vh;
+    margin: auto;
+}
+
+.orbit {
+    border: 1px dashed #666;
+}
+
+#sun,
+.orbit,
+.orbit+div,
+.orbit+div>div {
+    position: absolute;
+}
+
+#sun,
+.orbit,
+.orbit+div {
+    top: 50%;
+    left: 50%;
+}
+
+.orbit+div>div {
+    top: 0;
+    left: 50%;
+}
+
+.orbit,
+.orbit+div div,
+#earth {
+    border-radius: 50%;
+}
+
+
+#sun {
+    height: 200px;
+    width: 200px;
+    background-color: #fae20a;
+    margin-top: -100px;
+    margin-left: -100px;
+    border-radius: 50%;
+    box-shadow: 0 0 84px orange;
+}
+
+#earth {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 50px;
+    width: 50px;
+    margin-left: -25px;
+    margin-top: -25px;
+    border-radius: 50%;
+    box-shadow: 0 0 34px #3a4385;
+    z-index: 3;
+}
+
+.earth-orbit,
+.earth-spin {
+    width: 500px;
+    height: 500px;
+    margin-left: -250px;
+    margin-top: -250px;
+    z-index: 1;
+}
+
+#moon {
+    margin-top: -6px;
+    margin-left: -6px;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 14px #3a4385;
+    z-index: 4;
+}
+
+.moon-orbit,
+.moon-spin {
+    height: 90px;
+    width: 90px;
+    margin-top: -45px;
+    margin-left: -45px;
+    border-color: #447;
+}
+
+#venus {
+    margin-top: -20px;
+    margin-left: -20px;
+    height: 40px;
+    width: 40px;
+    background-color: #3498db;
+    box-shadow: 0 0 34px #3a4385;
+    z-index: 2;
+}
+
+.venus-orbit,
+.venus-spin {
+    margin-top: -185px;
+    margin-left: -185px;
+    width: 370px;
+    height: 370px;
+}
+
+#mercury {
+    margin-top: -13.5px;
+    margin-left: -13.5px;
+    height: 25px;
+    width: 25px;
+    background-color: #a65e22;
+    z-index: 1;
+}
+
+.mercury-orbit,
+.mercury-spin {
+    width: 280px;
+    height: 280px;
+    margin-left: -140px;
+    margin-top: -140px;
+}
+
+#mars {
+    margin-top: -16px;
+    margin-left: -16px;
+    height: 32px;
+    width: 32px;
+    background-color: #863222;
+    box-shadow: 0 0 14px #a64232;
+    z-index: 5;
+}
+
+.mars-orbit,
+.mars-spin {
+    width: 700px;
+    height: 700px;
+    margin-left: -350px;
+    margin-top: -350px;
+}
+
+#jupiter {
+    margin-top: -16px;
+    margin-left: -16px;
+    height: 32px;
+    width: 32px;
+    background-color: #ffffff;
+    box-shadow: 0 0 14px #ffffff;
+    z-index: 5;
+}
+
+.jupiter-orbit,
+.jupiter-spin {
+    width: 829px;
+    height: 829px;
+    margin-left: -413px;
+    margin-top: -413px;
+}
+
+#jupiter {
+    margin-top: -16px;
+    margin-left: -16px;
+    height: 32px;
+    width: 32px;
+    background-color: #ebb543;
+    box-shadow: 0 0 14px #f0c76e;
+    z-index: 5;
+}
+
+.saturn-orbit,
+.saturn-spin {
+    width: 944px;
+    height: 944px;
+    margin-left: -473px;
+    margin-top: -472px;
+}
+
+#saturn {
+    margin-top: -16px;
+    margin-left: -16px;
+    height: 32px;
+    width: 32px;
+    background-color: #ffffff;
+    box-shadow: 0 0 14px #ffffff;
+    z-index: 5;
+}
+
+.uranus-orbit,
+.uranus-spin {
+    width: 1050px;
+    height: 1050px;
+    margin-left: -526px;
+    margin-top: -518px;
+}
+
+#uranus {
+    margin-top: -16px;
+    margin-left: -16px;
+    height: 32px;
+    width: 32px;
+    background-color: #dd0b0b;
+    box-shadow: 0 0 14px #a33737;
+    z-index: 5;
+}
+
+.neptune-orbit,
+.neptune-spin {
+    width: 1157px;
+    height: 1157px;
+    margin-left: -571px;
+    margin-top: -566px;
+}
+
+#neptune {
+    margin-top: -16px;
+    margin-left: -16px;
+    height: 32px;
+    width: 32px;
+    background-color: #0011ff;
+    box-shadow: 0 0 14px #1293dd;
+    z-index: 5;
+}
+
+@keyframes spin-right {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.earth-spin {
+    animation: spin-right 10s linear infinite;
+}
+
+.moon-spin {
+    animation: spin-right 30s linear infinite;
+}
+
+.venus-spin {
+    animation: spin-right 8s linear infinite;
+}
+
+.mercury-spin {
+    animation: spin-right 4s linear infinite;
+}
+
+.mars-spin {
+    animation: spin-right 20s linear infinite;
+}
+
+.jupiter-spin {
+    animation: spin-right 25s linear infinite;
+}
+
+.saturn-spin {
+    animation: spin-right 30s linear infinite;
+}
+
+.uranus-spin {
+    animation: spin-right 40s linear infinite;
+}
+
+.neptune-spin {
+    animation: spin-right 50s linear infinite;
+}
+
+.pluto-spin {
+    animation: spin-right 60s linear infinite;
+}
+
+.activeSolar {
+    border: white 2px dotted;
+}
+
+#data {
+    box-sizing: border-box;
+    z-index: 99;
+    padding: 16px;
+    position: fixed;
+    bottom: 5%;
+    width: 100%;
+    text-align: center;
+    left: 0px;
+    font-family: 'SpaceFont', sans-serif;
+}
+
+#data>a {
+    box-sizing: border-box;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+    position: relative;
+    text-decoration: none;
+    margin-bottom: 1px;
+    display: inline-block;
+    text-align: center;
+    font-size: 34px;
+    padding: 15px 15px;
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+
+.active {
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(54, 26, 26, 0.075);
+    border-radius: 5px;
+}
+
+
+.flex {
+    display: flex;
+}
+
+#planet-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 300px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    z-index: 100;
+    color: #fff;
+}
+
+#planet-info img {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.planet-info-text h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.planet-info-text p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.container {
+    max-width: 623px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    position: absolute;
+    width: 25%;
+    z-index: 100;
+}
+
+.container h1 {
+    font-size: 32px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: center;
+}
+
+.search-container {
+    display: inline-block;
+}
+
+#date {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+#searchButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#searchButton:hover {
+    background-color: #2980b9;
+}
+
+#tsparticles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* home page hello mars*/
+.top {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+}
+
+.title {
+    color: white;
+    padding: 5%;
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    border: white 2px solid;
+    z-index: 10;
+}
+
+.big_planet {
+    z-index: 1;
+    width: 100%;
+    position: fixed;
+    opacity: 0.5;
+    top: 51%;
+    animation: rotateMercury 205.5s linear infinite;
+}
+
+@keyframes rotateMercury {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.api-info {
+    max-width: 800px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    position: relative;
+    gap: 20px;
+    height: 200px;
+}
+
+.api-info h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.api-info p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #333;
+}
+
+a {
+    color: white;
+}
+
+/* searchback */
+.containers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 97vh;
+    z-index: 1000;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 8px;
+    max-width: 400px;
+}
+
+.btn-left,
+.btn-center,
+.btn-right {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-left {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-center {
+    background-color: #008CBA;
+    color: white;
+}
+
+.btn-right {
+    background-color: #f44336;
+    color: white;
+}
